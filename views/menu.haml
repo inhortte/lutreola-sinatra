@@ -1,0 +1,72 @@
+#dropdown
+  %ul
+    %li.inline
+      %h2
+        %a{:href => "/news"}
+          = get_text_from_db(:menu, "news")
+    %li.inline
+      %h2
+        %a{:href => "/fl"}
+          = get_text_from_db(:menu, "fl")
+      %ul
+        %li.inline
+          %h2
+            %a{:href => "/mission"}
+              = get_text_from_db(:menu, "mission")
+        %li.inline
+          %h2
+            %a{:href => "/contact"}
+              = get_text_from_db(:menu, "contact")
+        %li.inline
+          %h2
+            %a{:href => "/who"}
+              = get_text_from_db(:menu, "who")
+        %li.inline
+          %h2
+            %a{:href => "/obj"}
+              = get_text_from_db(:menu, "obj")
+        %li.inline
+          %h2
+            %a{:href => "/act"}
+              = get_text_from_db(:menu, "act")
+        %li.inline
+          %h2
+            %a{:href => "/part"}
+              = get_text_from_db(:menu, "part")
+    %li.inline
+      %h2
+        %a{:href => "/photo"}
+          = get_text_from_db(:menu, "photo")
+    %li.inline
+      %h2
+        %a{:href => "/cb"}
+          = get_text_from_db(:menu, "cb")
+    %li.inline
+      %h2
+        %a{:href => "/eep"}
+          = get_text_from_db(:menu, "eep")
+      %ul
+        %li.inline
+          %h2
+            %a{:href => "/study"}
+              = get_text_from_db(:menu, "study")
+        %li.inline
+          %h2
+            %a{:href => "/husb"}
+              = get_text_from_db(:menu, "husb")
+        %li.inline
+          %h2
+            %a{:href => "/eepfac"}
+              = get_text_from_db(:menu, "eepfac")
+        %li.inline
+          %h2
+            %a{:href => "/memb"}
+              = get_text_from_db(:menu, "memb")
+        %li.inline
+          %h2
+            %a{:href => "/species"}
+              = get_text_from_db(:menu, "species")
+    %li.inline
+      %h2
+        %a{:href => "/links"}
+          = get_text_from_db(:menu, "links")

@@ -8,7 +8,7 @@ pages.each do |page|
   klass.class_eval do
     include DataMapper::Resource
 
-#    property :id, Serial
+    property :id, DataMapper::Property::Serial
     property :name, String, :length => 20, :required => true
     property :ordr, Integer
     property :en, DataMapper::Property::Text
@@ -19,7 +19,7 @@ end
 class Photo
   include DataMapper::Resource
 
-#  property :id, Serial
+  property :id, Serial
   property :name, String, :length => 20, :required => true
   property :ordr, Integer
   property :show, Boolean, :default => true, :required => true
@@ -29,10 +29,19 @@ class Photo
   property :ee, Text
 end
 
+class Header
+  include DataMapper::Resource
+
+  property :id, Serial
+  property :name, String, :length => 20, :required => true
+  property :en, Text
+  property :ee, Text
+end
+
 class Sidebar
   include DataMapper::Resource
 
-#  property :id, Serial
+  property :id, Serial
   property :name, String, :length => 20, :required => true
   property :en, Text
   property :ee, Text
@@ -41,7 +50,7 @@ end
 class Menu
   include DataMapper::Resource
 
-#  property :id, Serial
+  property :id, Serial
   property :name, String, :length => 20, :required => true
   property :en, Text
   property :ee, Text
