@@ -1,6 +1,6 @@
 require 'rubygems'
 
-%w(sinatra dm-core dm-migrations dm-mysql-adapter haml logger bluecloth).each { |gem| require gem }
+%w(sinatra dm-core dm-migrations dm-mysql-adapter haml logger bluecloth twitter).each { |gem| require gem }
 
 # helpers go here
 helpers = Dir.entries('./helpers').select { |h| h =~ /.rb$/ }
@@ -40,7 +40,11 @@ before do
   m = %r{^(/\w+)}.match(request.path_info)
   unless get_lang
     set_lang "ee"
-    redirect m[1]
+    if m[1]
+      redirect m[1]
+    else
+      redirect '/home'
+    end
   end
 end
 

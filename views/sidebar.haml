@@ -1,2 +1,13 @@
 #sidebar_header
   = get_text_from_db(:sidebar, "header")
+%br
+#tweets
+  - image_url = twitter_image_url
+  - last_tweets.each do |tweet|
+    .tweet
+      %img{:class => "", :src => image_url}
+      %span{:class => "text"}
+        = tweet
+      %br.clear
+      %br.clear
+
