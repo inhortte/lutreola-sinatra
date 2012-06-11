@@ -8,8 +8,9 @@
       %div{:class => "span-20 last prepend-2 append-2"}
         #header.round
           #pagetitle
+            = stretch_text(get_text_from_db(:header, "header"))
           #header_mink
-            %img{:width => 70, :src => "/images/headpic3.gif"}
+            %img{:width => 70, :src => "#{rand_header_mink}"}
           #estonian_flag
             %a{:id => "flag_ee", :href => "#"}
               %img{:width => "28", :src => "/images/ee_flag.gif"}
@@ -17,14 +18,10 @@
             %a{:id => "flag_en", :href => "#"}
               %img{:width => "28", :src => "/images/en_flag.gif"}
           #menu
-
+            = haml :menu
           %br.clear
         %div{:id => "sidebar", :class => "span-4 round"}
-          - if get_member
-            = "Logged in: #{get_member.username}"
-            %br
-            %a{:href => '/member/logout'}
-              logout
+          = haml :sidebar
         %div{:id => "hlavni", :class => "span-15 round"}
           - if flash[:notice]
             %p.error

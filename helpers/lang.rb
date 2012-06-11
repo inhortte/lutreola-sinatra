@@ -1,6 +1,5 @@
 module Sinatra
   module LangHelper
-
     LANGS = ["en", "ee"]
 
     def get_lang
@@ -23,6 +22,5 @@ module Sinatra
       end
     end
   end
-  
   helpers LangHelper
 end
