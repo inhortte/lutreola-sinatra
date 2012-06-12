@@ -1,0 +1,38 @@
+%h3
+  Entry
+  - if !id.nil?
+    Edit
+%form{:action => "/admin/entry", :method => "post"}
+  - if !id.nil?
+    %input{:type => "hidden", :name => "id", :value => id}
+  %p
+    %label{:for => "title"}
+      Title
+    %input{:type => "text", :name => "title",
+           :value => "#{title ? title : ""}"}
+  %p#select_menus
+    %label{:for => "menus"}
+      Menus
+    %br
+    %select{:name => "menus", :multiple => true, :size => 4}
+      = menu_select
+    %div#instructions
+  %p
+    %label{:for => "url"}
+      Url (If this is present, the text fields below will be ignored)
+    %br
+    %input{:type => "text", :name => "url", :value => "#{url ? url : ""}"}
+  %p
+    %label{:for => "en"}
+      English Text
+    %br
+    %textarea{:rows => 10, :cols => 100, :name => "en"}
+      = #{en ? en : ""}
+  %p
+    %label{:for => "ee"}
+      Estonian Text
+    %br
+    %textarea{:rows => 10, :cols => 100, :name => "ee"}
+      = #{ee ? ee : ""}
+  %p
+    %input{:type => "submit", :value => "Save"}

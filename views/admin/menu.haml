@@ -1,0 +1,19 @@
+%h3
+  Menu
+  - if !id.nil?
+    Edit
+%form{:action => "/admin/menu", :method => "post"}
+  - if !id.nil?
+    %input{:type => "hidden", :name => "id", :value => id}
+  %p
+    %label{:for => "name"}
+      Name
+    %input{:type => "text", :name => "name", :value => "#{name ? name : ""}"}
+  %p#entries
+    %ul
+      - if defined? entries
+        - entries.each do |e|
+          %li e.menu_title
+          
+  %p
+    %input{:type => "submit", :value => "Save"}

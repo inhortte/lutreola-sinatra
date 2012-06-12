@@ -31,12 +31,17 @@ helpers Sinatra::MemberHelper
 before do
   m = get_member
   if m
-    if m.class == Admin && Time.now.to_i - m.last_action.to_i > 600
+    if m.class == Admin && m.last_action && Time.now.to_i - m.last_action.to_i > 600
       clear_member
     else
       m.update(:last_action => Time.now)
     end
   end
+end
+
+get '/lutreola.css' do
+  headers 'Content-Type' => 'text/css; charset=utf-8'
+  sass :"sass/lutreola"
 end
 
 namespace '/member' do
@@ -91,12 +96,39 @@ namespace '/member' do
 end
 
 namespace '/admin' do
+  helpers Sinatra::AdminHelper
   before do
     m = get_member
     if !m || m.class != Admin
       flash[:notice] = "Oops!"
       redirect '/member/login'
     end
+  end
+  get { haml :"admin/map" }
+  get('/map') { haml :"admin/map" }
+  get('/entry') { haml :"admin/entry",
+    :locals => property_map(get_properties("Entry"), Entry.new) }
+  get('/menu') { haml :"admin/menu",
+    :locals => property_map(get_properties("Menu"), Menu.new) }
+  get('/entry/:id') { haml :"admin/entry",
+    :locals => property_map(get_properties("Entry"), Entry.get(params[:id])) }
+  get('/menu/:id') { haml :"admin/menu",
+    :locals => property_map(get_properties("Menu"), Menu.get(params[:id])) }
+  
+  post '/menu' do
+    if params[:id]
+      m = Menu.get(params[:id])
+      m.update(params)
+      flash[:notice] = "#{m.name} updated"
+    else
+      m = Menu.new(params)
+      flash[:notice] = m.save ? "#{m.name} saved" : "Save failed"
+    end
+    redirect "/admin/menu/#{m.id}"
+  end  
+  post '/entry' do
+    logger.info params.inspect
+    redirect '/admin/entry'
   end
 end
 

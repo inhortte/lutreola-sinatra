@@ -17,7 +17,8 @@
             %a{:id => "flag_en", :href => "#"}
               %img{:width => "28", :src => "/images/en_flag.gif"}
           #menu
-
+            - if admin_page?
+              = haml :"admin/options"
           %br.clear
         %div{:id => "sidebar", :class => "span-4 round"}
           - if get_member

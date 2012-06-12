@@ -1,0 +1,13 @@
+%ul
+  - Menu.all.each do |menu|
+    %li
+      %a{:href => "/admin/menu/#{menu.id}"}
+        = menu.name
+    %ul
+      - menu.entry_menus.sort_by { |em| em.ordr }.each do |em|
+        %li
+          %a{:href => "/admin/page/#{em.entry.id}"}
+            = em.entry.menu_title
+            = "(#{em.entry.title})"
+
+  
