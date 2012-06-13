@@ -4,7 +4,7 @@ require 'dm-migrations'
 class EntryMenu
   include DataMapper::Resource
 
-  property :ordr, Integer
+  property :ordr, Integer, :default => 1
   property :title, String, :length => 20
   belongs_to :menu, :key => true
   belongs_to :entry, :key => true
@@ -32,6 +32,7 @@ class Entry
   property :title, String, :required => true
   property :type, Discriminator
   property :role, String, :length => 20
+  property :main_menu, Integer
 
   property :url, String
   property :en, Text

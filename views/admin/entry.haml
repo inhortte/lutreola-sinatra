@@ -10,13 +10,30 @@
       Title
     %input{:type => "text", :name => "title",
            :value => "#{title ? title : ""}"}
-  %p#select_menus
-    %label{:for => "menus"}
-      Menus
-    %br
-    %select{:name => "menus", :multiple => true, :size => 4}
-      = menu_select
-    %div#instructions
+  #select_menus.clear
+    #select_box
+      %label{:for => "menus"}
+        Menus
+      %br
+      %select{:name => "menus", :multiple => true, :size => 4}
+        = menu_select
+    #instructions
+      Click on the left
+      %br
+      to add or delete
+      %br
+      on the right
+    #menu_titles_div
+      #menu_titles_list
+        - if defined? menu_titles
+          - menu_titles.each do |mt|
+            %div{:id => "mt#{mt[0].name}"}
+              %span.menu_name
+                = mt[0].name
+              %input{:type => "text", :name => "mt#{mt[0].name}",
+                     :value => mt[1]}
+  %br.clear
+  %br.clear
   %p
     %label{:for => "url"}
       Url (If this is present, the text fields below will be ignored)
@@ -27,12 +44,12 @@
       English Text
     %br
     %textarea{:rows => 10, :cols => 100, :name => "en"}
-      = #{en ? en : ""}
+      = "#{en ? en : ""}"
   %p
     %label{:for => "ee"}
       Estonian Text
     %br
     %textarea{:rows => 10, :cols => 100, :name => "ee"}
-      = #{ee ? ee : ""}
+      = "#{ee ? ee : ""}"
   %p
     %input{:type => "submit", :value => "Save"}

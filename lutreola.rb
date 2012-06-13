@@ -106,16 +106,32 @@ namespace '/admin' do
   end
   get { haml :"admin/map" }
   get('/map') { haml :"admin/map" }
-  get('/entry') { haml :"admin/entry",
-    :locals => property_map(get_properties("Entry"), Entry.new) }
   get('/menu') { haml :"admin/menu",
     :locals => property_map(get_properties("Menu"), Menu.new) }
-  get('/entry/:id') { haml :"admin/entry",
-    :locals => property_map(get_properties("Entry"), Entry.get(params[:id])) }
-  get('/menu/:id') { haml :"admin/menu",
-    :locals => property_map(get_properties("Menu"), Menu.get(params[:id])) }
+  get('/menu/:id') do
+    m = Menu.get(params[:id])
+    logger.info(m.entry_menus.inspect)
+    haml :"admin/menu", :locals => {:entry_menus => m.entry_menus}.merge(property_map(get_properties("Menu"), m))
+  end
+  get('/entry') { haml :"admin/entry",
+    :locals => property_map(get_properties("Entry"), Entry.new) }
+  get('/entry/:id') do
+    e = Entry.get(params[:id])
+    menu_titles = get_menu_titles(e)
+    haml :"admin/entry", :locals => 
+      {:menu_titles => menu_titles}.merge(property_map(get_properties("Entry"),
+                                                       e))
+  end
   
   post '/menu' do
+    logger.info params.inspect
+    if params["ordr"]
+      ids = params["ordr"].split(',')
+      ordr = Hash[ids.zip((1..(ids.length)).to_a)]
+      params.delete("ordr")
+    else
+      ordr = {}
+    end
     if params[:id]
       m = Menu.get(params[:id])
       m.update(params)
@@ -124,11 +140,40 @@ namespace '/admin' do
       m = Menu.new(params)
       flash[:notice] = m.save ? "#{m.name} saved" : "Save failed"
     end
+    ordr.keys.each { |k| EntryMenu.first(:menu_id => m.id, :entry_id => k).update(:ordr => ordr[k]) }
     redirect "/admin/menu/#{m.id}"
   end  
   post '/entry' do
+    params.delete("menus")
+    mts = params.keys.reduce({}) { |ms, k| k.to_s =~ /^mt/ ?
+      ms.merge!(k => params[k]) : ms }
+    mts.keys.each { |mtk| params.delete(mtk) }
     logger.info params.inspect
-    redirect '/admin/entry'
+    logger.info mts.inspect
+    if params[:id]
+      e = Entry.get(params[:id])
+      e.update(params)
+      lemur = "updated"
+    else
+      if params[:url].strip.empty?
+        e = Page.new(params)
+      else
+        e = Link.new(params)
+      end
+      unless e.save
+        flash[:notice] = "Save failed"
+        redirect "/admin/entry"
+      end
+      lemur = "saved"
+    end
+    e.entry_menus.each { |em| em.destroy }
+    mts.keys.each do |k|
+      EntryMenu.create!(:entry_id => e.id,
+                        :menu_id => Menu.first(:name => k.to_s[2..-1]).id,
+                        :title => mts[k])
+    end
+    flash[:notice] = "#{e.title} #{lemur}"
+    redirect "/admin/entry/#{e.id}"
   end
 end
 

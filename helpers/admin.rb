@@ -10,8 +10,20 @@ module Sinatra
 
     def menu_select
       Menu.all(:order => [:name.asc]).reduce("") do |ops, menu|
-        ops += "<option value=#{menu.id}>#{menu.name}</option>"
+        ops += "<option value=#{menu.name}>#{menu.name}</option>"
       end
+    end
+
+    def get_menu_titles(e)
+      e.entry_menus.reduce([]) do |mts, em|
+        mts = mts + [[em.menu, em.title]]
+      end
+    end
+
+    def get_menu_titles_hidden_value(e)
+      e.entry_menus.reduce([]) do |mthv, em|
+        mthv = mthv + ["#{em.menu.name}:#{em.title}"]
+      end.join(";")
     end
   end
   helpers AdminHelper

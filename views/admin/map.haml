@@ -6,8 +6,9 @@
     %ul
       - menu.entry_menus.sort_by { |em| em.ordr }.each do |em|
         %li
-          %a{:href => "/admin/page/#{em.entry.id}"}
-            = em.entry.menu_title
+          %a{:href => "/admin/entry/#{em.entry.id}"}
+            = em.title
             = "(#{em.entry.title})"
+
 
   

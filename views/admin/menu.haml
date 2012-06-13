@@ -2,18 +2,23 @@
   Menu
   - if !id.nil?
     Edit
-%form{:action => "/admin/menu", :method => "post"}
+%form{:id => 'menu_form', :action => "/admin/menu", :method => "post"}
   - if !id.nil?
     %input{:type => "hidden", :name => "id", :value => id}
   %p
     %label{:for => "name"}
       Name
     %input{:type => "text", :name => "name", :value => "#{name ? name : ""}"}
-  %p#entries
-    %ul
-      - if defined? entries
-        - entries.each do |e|
-          %li e.menu_title
+  %p
+    Arrange the menus!
+  #entry_menus
+    %ul#ems_sortable
+      - if defined? entry_menus
+        - entry_menus.sort_by { |em| em.ordr }.each do |em|
+          %li{:class => "ui-state-default", :id => "ordr_#{em.entry_id}"}
+            %span{:class => "ui-icon ui-icon-arrowthick-2-n-s"}
+            = em.title
+            = "(#{em.entry.title})"
           
   %p
     %input{:type => "submit", :value => "Save"}
