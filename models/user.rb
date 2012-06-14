@@ -24,6 +24,7 @@ class Member
   validates_confirmation_of :password
 
   has 1, :member_info
+  has 1, :photographer
 
   def has_password?(passwd)
     self.encrypted_password == encrypt(passwd)

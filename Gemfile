@@ -13,3 +13,6 @@ gem "sass"
 gem "logger"
 gem "bluecloth"
 gem "twitter"
+gem "carrierwave"
+gem "carrierwave-datamapper", :require => 'carrierwave/datamapper'
+gem "rmagick"

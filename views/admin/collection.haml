@@ -1,0 +1,33 @@
+%h3
+  Photo Collection
+  - if !id.nil?
+    Edit
+%form{:id => 'menu_form', :action => "/admin/menu", :method => "post"}
+  - if !id.nil?
+    %input{:type => "hidden", :name => "id", :value => id}
+  %p
+    %label{:for => "name"}
+      Name
+    %input{:type => "text", :name => "name", :value => "#{name ? name : ""}"}
+  %p
+    %label{:for => "en"}
+      English description
+      %br
+      %textarea{:rows => 3, :cols => 100, :name => 'en'}
+        = "#{en ? en : ""}"
+  %p
+    %label{:for => "ee"}
+      English description
+      %br
+      %textarea{:rows => 3, :cols => 100, :name => 'ee'}
+        = "#{ee ? ee : ""}"      
+  %p
+    Arrange the photos!
+  #collection_photos
+    %ul#cps_sortable
+      - if defined? collection_photos
+        - collection_photos.sort_by { |cp| cp.ordr }.each do |cp|
+          %li{:class => "ui-state-default", :id => "ordr_#{em.entry_id}"}
+            %img{:src => cp.photo.image}
+  %p
+    %input{:type => "submit", :value => "Save"}

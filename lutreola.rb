@@ -9,7 +9,7 @@ helpers.each do |helper|
 end
 
 # models go here
-%w{hierarchy.rb user.rb}.each { |model| require "./models/#{model}" }
+%w{hierarchy.rb user.rb gallery.rb}.each { |model| require "./models/#{model}" }
 
 enable :sessions
 set :show_exceptions, true
@@ -106,23 +106,32 @@ namespace '/admin' do
   end
   get { haml :"admin/map" }
   get('/map') { haml :"admin/map" }
-  get('/menu') { haml :"admin/menu",
-    :locals => property_map(get_properties("Menu"), Menu.new) }
-  get('/menu/:id') do
-    m = Menu.get(params[:id])
-    logger.info(m.entry_menus.inspect)
-    haml :"admin/menu", :locals => {:entry_menus => m.entry_menus}.merge(property_map(get_properties("Menu"), m))
+  get('/gallery') { haml :"admin/gallery" }
+
+  # matches /menu, /entry, /collection, /photo
+  get %r{^/(\w+)$} do
+    p = params[:captures][0].capitalize
+    haml :"admin/#{p.downcase}", :locals => property_map(get_properties(p), Object.const_get(p).send('new'))
   end
-  get('/entry') { haml :"admin/entry",
-    :locals => property_map(get_properties("Entry"), Entry.new) }
-  get('/entry/:id') do
-    e = Entry.get(params[:id])
-    menu_titles = get_menu_titles(e)
-    haml :"admin/entry", :locals => 
-      {:menu_titles => menu_titles}.merge(property_map(get_properties("Entry"),
-                                                       e))
+
+  # matches /menu/:id, /entry/:id, /collection/:id, /photo/:id
+  get %r{^/(\w+)/(\d+)$} do
+    p = params[:captures][0].capitalize
+    obj = Object.const_get(p).send('get', params[:captures][1])
+    loc_map = {:menu => :entry_menus, :entry => :menu_titles,
+      :collection => :collection_photos }
+    haml :"admin/#{p.downcase}", :locals =>
+      {loc_map[p.downcase.to_sym] => case p
+                                     when "Menu"
+                                       obj.entry_menus
+                                     when "Entry"
+                                       get_menu_titles(obj)
+                                     when "Collection"
+                                       obj.collection_photos
+                                     end}.merge(property_map(get_properties(p),
+                                                             obj))
   end
-  
+
   post '/menu' do
     logger.info params.inspect
     if params["ordr"]
@@ -143,6 +152,7 @@ namespace '/admin' do
     ordr.keys.each { |k| EntryMenu.first(:menu_id => m.id, :entry_id => k).update(:ordr => ordr[k]) }
     redirect "/admin/menu/#{m.id}"
   end  
+
   post '/entry' do
     params.delete("menus")
     mts = params.keys.reduce({}) { |ms, k| k.to_s =~ /^mt/ ?
@@ -175,6 +185,27 @@ namespace '/admin' do
     flash[:notice] = "#{e.title} #{lemur}"
     redirect "/admin/entry/#{e.id}"
   end
+
+  post '/collection' do
+    logger.info params.inspect
+    if params["ordr"]
+      ids = params["ordr"].split(',')
+      ordr = Hash[ids.zip((1..(ids.length)).to_a)]
+      params.delete("ordr")
+    else
+      ordr = {}
+    end
+    if params[:id]
+      m = Menu.get(params[:id])
+      m.update(params)
+      flash[:notice] = "#{m.name} updated"
+    else
+      m = Menu.new(params)
+      flash[:notice] = m.save ? "#{m.name} saved" : "Save failed"
+    end
+    ordr.keys.each { |k| EntryMenu.first(:menu_id => m.id, :entry_id => k).update(:ordr => ordr[k]) }
+    redirect "/admin/menu/#{m.id}"
+  end  
 end
 
 namespace '/home' do
