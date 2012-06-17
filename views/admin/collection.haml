@@ -2,7 +2,7 @@
   Photo Collection
   - if !id.nil?
     Edit
-%form{:id => 'menu_form', :action => "/admin/menu", :method => "post"}
+%form{:id => 'collection_form', :action => "/admin/collection", :method => "post"}
   - if !id.nil?
     %input{:type => "hidden", :name => "id", :value => id}
   %p
@@ -27,7 +27,10 @@
     %ul#cps_sortable
       - if defined? collection_photos
         - collection_photos.sort_by { |cp| cp.ordr }.each do |cp|
-          %li{:class => "ui-state-default", :id => "ordr_#{em.entry_id}"}
-            %img{:src => cp.photo.image}
+          %li{:class => "ui-state-default", :id => "ordr_#{cp.photo_id}"}
+            %img{:src => cp.photo.image.versions[:thumb].url}
+            %br
+            = cp.photo.name
+  %br.clear
   %p
     %input{:type => "submit", :value => "Save"}

@@ -1,0 +1,66 @@
+%h3
+  Photo
+  - if !id.nil?
+    Edit
+%form{:action => "/admin/photo", :method => "post", :enctype => "multipart/form-data"}
+  - if !id.nil?
+    %input{:type => "hidden", :name => "id", :value => id}
+  %p
+    %label{:for => "name"}
+      Title
+    %input{:type => "text", :name => "name",
+           :value => "#{name ? name : ""}"}
+  #select_collections.clear
+    #select_box
+      %label{:for => "collections"}
+        Collections
+      %br
+      %select{:name => "collections", :multiple => true, :size => 4}
+        = collection_select
+    #instructions
+      Click on the left
+      %br
+      to add or delete
+      %br
+      on the right
+    #collection_names_div
+      #collection_names_list
+        - if defined? collections
+          - collections.each do |c|
+            %div{:id => "coll#{c.id}"}
+              %span.name
+                = c.name
+              %input{:type => 'hidden', :name => "coll#{c.id}",
+                     :value => c.id}
+  %br.clear
+  %br.clear
+  #photo_thumb
+    #image
+      - if image
+        %img{:src => image.versions[:thumb].url}
+    #input
+      %label{:for => "image"}
+        Image
+      %br
+      %input{:type => "file", :name => "image", :value => ""}
+  %br.clear
+  %br.clear
+  %p
+    %label{:for => "photographer_id"}
+      Photographer
+    %select{:name => "photographer_id"}
+      = Photographer.all(:order => [:name.asc]).reduce("") { |ops, p| ops += "<option value=#{p.id}>#{p.name}</option>" }
+  %p
+    %label{:for => "en"}
+      English Text
+    %br
+    %textarea{:rows => 10, :cols => 100, :name => "en"}
+      = "#{en ? en : ""}"
+  %p
+    %label{:for => "ee"}
+      Estonian Text
+    %br
+    %textarea{:rows => 10, :cols => 100, :name => "ee"}
+      = "#{ee ? ee : ""}"
+  %p
+    %input{:type => "submit", :value => "Save"}

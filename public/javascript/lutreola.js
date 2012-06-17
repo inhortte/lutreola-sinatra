@@ -24,12 +24,22 @@ $(document).ready(function() {
 	return false;
     });
 
-    $("#select_box > select").click(function () {
-	var menu_name = this.options[this.selectedIndex].value;
-	if($("#mt" + menu_name).length > 0) {
-	    $("#mt" + menu_name).remove();
+    $("#select_menus > #select_box > select").click(function () {
+	var name = this.options[this.selectedIndex].value;
+	if($("#mt" + name).length > 0) { // this asks if the el exists
+	    $("#mt" + name).remove();
 	} else {
-	    $("#menu_titles_list").append('<div id="mt' + menu_name + '"><span class="menu_name">' + menu_name + '</span><input type="text" name="mt' + menu_name + '" /></div>');
+	    $("#menu_titles_list").append('<div id="mt' + name + '"><span class="name">' + name + '</span><input type="text" name="mt' + name + '" /></div>');
+	}
+    });
+    $("#select_collections > #select_box > select").click(function() {
+	alert("#select_collections > #select_box > select");
+	var id = this.options[this.selectedIndex].value;
+	var name = this.options[this.selectedIndex].text;
+	if($("#coll" + id).length > 0) { // this asks if the el exists
+	    $("#coll" + id).remove();
+	} else {
+	    $("#collection_names_list").append('<div id="coll' + id + '"><span class="name">' + name + '</span><input type="hidden" name="coll' + id + '" value=' + id + ' /></div>');
 	}
     });
 
@@ -39,6 +49,14 @@ $(document).ready(function() {
 	var ids = $("#ems_sortable").sortable("toArray").map(function(el) {
 	    return el.substr(5);
 	}).join(",");
-	this.action = this.action + "?ordr=" + ids
+	this.action = this.action + "?ordr=" + ids;
+    });
+    $("#cps_sortable").sortable();
+    $("#cps_sortable").disableSelection();
+    $("form#collection_form").submit(function() {
+	var ids = $("#cps_sortable").sortable("toArray").map(function(el) {
+	    return el.substr(5);
+	}).join(",");
+	this.action = this.action + "?ordr=" + ids;
     });
 });

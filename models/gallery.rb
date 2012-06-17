@@ -9,6 +9,9 @@ class PhotoUploader < CarrierWave::Uploader::Base
   end
 
   storage :file
+  def store_dir
+    "gallery/#{model.class.to_s.underscore}/#{model.id}"
+  end
 end
 
 class Photo
@@ -19,12 +22,20 @@ class Photo
   property :ee, Text
   property :en, Text
   property :taken, DateTime
-  property :image, String, :auto_validation => false
   mount_uploader :image, PhotoUploader
 
   belongs_to :photographer
   has n, :collection_photos
   has n, :collections, :through => :collection_photo
+
+  def to_jq_upload
+    { "name" => read_attribute(:avatar),
+      "size" => image.size,
+      "url" => image.url,
+      "thumbnail_url" => avatar.thumb.url,
+      "delete_url" => "/gallery/photo/image/#{self.id}",
+      "delete_type" => "DELETE" }
+  end
 end
 
 class Collection

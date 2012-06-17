@@ -10,8 +10,14 @@ module Sinatra
 
     def menu_select
       Menu.all(:order => [:name.asc]).reduce("") do |ops, menu|
-        ops += "<option value=#{menu.name}>#{menu.name}</option>"
+        ops += "<option value=\"#{menu.name}\">#{menu.name}</option>"
       end
+    end
+
+    def collection_select
+      Collection.all(:order => [:name.asc]).reduce("") do |ops, coll|
+        ops += "<option value=\"#{coll.id}\">#{coll.name}</option>"
+      end 
     end
 
     def get_menu_titles(e)

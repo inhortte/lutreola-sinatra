@@ -1,0 +1,44 @@
+%script{:type => "text/javascript", :src => '/javascript/vendor/jquery.ui.widget.js'}
+%script{:type => "text/javascript", :src => 'http://blueimp.github.com/JavaScript-Templates/tmpl.min.js'}
+%script{:type => "text/javascript", :src => 'http://blueimp.github.com/JavaScript-Load-Image/load-image.min.js'}
+%script{:type => "text/javascript", :src =>  '/javascript/jquery.iframe-transport.js'}
+%script{:type => "text/javascript", :src => '/javascript/jquery.fileupload.js'}
+%script{:type => "text/javascript", :src => '/javascript/jquery.fileupload-ui.js'}
+%script{:type => "text/javascript", :src => "/javascript/photos.js"}
+%script{:type => "text/x-tmpl", :id => "template-upload", :src => "/javascript/template_upload.js"}
+%script{:type => "text/x-tmpl", :id => "template-download", :src => "/javascript/template_download.js"}
+%h3
+  Multiple Photo Upload
+%form{:action => '/admin/photos', :method => 'post', :enctype => 'multipart/form-data', :id => 'fileupload'}
+  %div{:class => "row fileupload-buttonbar"}
+    %div
+      %span{:class => "btn bts-success fileinput-button"}
+        %i{:class => "icon-plus icon-white"}
+        %span Add files...
+        %input{:type => "file", :name => "path"}
+      %button{:type => "submit", :class => "btn btn-primary start"}
+        %i{:class => "icon-upload icon-white"}
+        %span Start upload
+      %button{:type => "reset", :class => "btn btn-warning cancel"}
+        %i{:class => "icon-ban-circle icon-white"}
+        %span Cancel upload
+      %button{:type => "button", :class => "btn btn-danger delete"}
+        %i{:class => "icon-trash icon-white"}
+        %span Delete
+      %input{:type => "checkbox", :class => "toggle"}
+    %div
+      %div{:class => "progress progress-success progress-striped active fade"}
+        %div{:class => "bar", :style => "width: 0%;"}
+  %div{:class => "fileupload-loading"}
+  %br
+  %table{:class => "table table-striped"}
+    %tbody{:class => "files", :"data-toggle" => "modal-gallery", :"data-target" => "#modal-gallery"}
+
+%div#photos
+  - photos.each do |p|
+    .photo_div
+      .photo
+        %img{:href => p.image.versions[:thumb].url}
+      .name
+        = p.name
+        

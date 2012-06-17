@@ -1,0 +1,16 @@
+%ul#gallery
+  - Collection.all.each do |c|
+    %li
+      %a{:href => "/admin/collection/#{c.id}"}
+        = c.name
+    %ul
+      - c.collection_photos.sort_by { |cp| cp.ordr }.each do |cp|
+        %li.photo_item
+          %a{:href => "/admin/photo/#{cp.photo.id}"}
+            .photo
+              %img{:src => cp.photo.image.versions[:thumb].url}
+            .name
+              = "(#{cp.photo.name})"
+
+
+  

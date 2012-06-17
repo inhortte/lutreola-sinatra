@@ -119,7 +119,7 @@ img
   -webkit-border-radius: 10px
   border-radius: 10px
 
-#select_menus
+#select_menus, #select_collections
   :width 100%
   #select_box
     :float left
@@ -129,13 +129,22 @@ img
       :top 20px
       :left 20px
       :right 20px
-  #menu_titles_div
+  #menu_titles_div, #collection_names_div
     :float left
     :padding
       :top 10px
     .menu_name
       :padding
         :right 10px
+#photo_thumb
+  img
+    :padding
+      :right 20px
+    :align texttop
+  #image
+    :float left
+  #input
+    :float left
 
 #entry_menus
   ul
@@ -154,6 +163,16 @@ img
         :position absolute
         :margin
           :left -1.3em
+
+#collection_photos
+  ul
+    :list-style-type none
+    :margin 0
+    :width 100%
+    li
+      :float left
+      :padding 5px
+          
 #flash
   :font
     :weight bold
