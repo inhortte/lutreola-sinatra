@@ -1,16 +1,32 @@
-%ul#gallery
-  - Collection.all.each do |c|
+#tabs
+  %ul
+    - collections.each do |c|
+      %li
+        %a{:href => "#coll#{c.id}"}
+          = c.name.capitalize
     %li
-      %a{:href => "/admin/collection/#{c.id}"}
-        = c.name
-    %ul
-      - c.collection_photos.sort_by { |cp| cp.ordr }.each do |cp|
-        %li.photo_item
-          %a{:href => "/admin/photo/#{cp.photo.id}"}
+      %a{:href => "#coll0"}
+        None
+  - collections.each do |c|
+    %div{:id => "coll#{c.id}"}
+      %ul{:id => "sortable#{c.id}", :class => "connSort ui-helper-reset"}
+        - c.collection_photos.sort_by { |cp| cp.ordr }.each do |cp|
+          %li{:class => "photo_item ui-state-default"}
             .photo
               %img{:src => cp.photo.image.versions[:thumb].url}
             .name
-              = "(#{cp.photo.name})"
+              %a{:href => "/admin/photo/#{cp.photo.id}"}
+                = "(#{cp.photo.name})"
+  %div{:id => "coll0"}
+    %ul{:id => "sortable0", :class => "connSort ui-helper-reset"}
+      - Photo.all.select { |p| p.collections.count == 0 }.each do |p|
+        %li{:class => "photo_item ui-state-default"}
+          .photo
+            %img{:src => p.image.versions[:thumb].url}
+          .name
+            %a{:href => "/admin/photo/#{p.id}"}
+              = "(#{p.name})"
+  %br.clear
 
-
-  
+%button{:id => "gallery_save"}
+  Save

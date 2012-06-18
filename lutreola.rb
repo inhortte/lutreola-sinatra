@@ -44,6 +44,10 @@ get '/lutreola.css' do
   sass :"sass/lutreola"
 end
 
+get '/flash' do
+  haml :flash, :layout => false
+end
+
 namespace '/member' do
   helpers Sinatra::AuthenticationHelper
   before do
@@ -106,7 +110,7 @@ namespace '/admin' do
   end
   get { haml :"admin/map" }
   get('/map') { haml :"admin/map" }
-  get('/gallery') { haml :"admin/gallery" }
+  get('/gallery') { haml :"admin/gallery", :locals => {:collections => Collection.all(:order => [:name.asc])} }
   get('/photos') { haml :"admin/photos", :locals => {:photos => Photo.all} }
 
   # matches /menu, /entry, /collection, /photo
@@ -220,6 +224,23 @@ namespace '/admin' do
     end
     flash[:notice] = "#{p.name} #{lemur}"
     redirect "/admin/photo/#{p.id}"
+  end
+
+  post '/arrange_gallery' do
+    CollectionPhoto.destroy!
+    params.delete("0")
+    logger.info params.inspect
+    params.keys.each do |coll_id|
+      index = 0
+      params[coll_id].split(',').each do |page_id|
+        index = index + 1
+        CollectionPhoto.create!(:collection_id => coll_id.to_i,
+                                :photo_id => page_id.to_i,
+                                :ordr => index)
+      end
+    end
+    flash.now[:notice] = "Vabandage!"
+    haml :flash, :layout => false
   end
 end
 

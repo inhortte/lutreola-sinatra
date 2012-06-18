@@ -43,6 +43,7 @@ $(document).ready(function() {
 	}
     });
 
+    // menu
     $("#ems_sortable").sortable();
     $("#ems_sortable").disableSelection();
     $("form#menu_form").submit(function() {
@@ -51,6 +52,8 @@ $(document).ready(function() {
 	}).join(",");
 	this.action = this.action + "?ordr=" + ids;
     });
+
+    // collection
     $("#cps_sortable").sortable();
     $("#cps_sortable").disableSelection();
     $("form#collection_form").submit(function() {
@@ -59,4 +62,42 @@ $(document).ready(function() {
 	}).join(",");
 	this.action = this.action + "?ordr=" + ids;
     });
+
+    // gallery
+    if(/\/admin\/gallery/.exec(document.location)) {
+	$("ul[id^='sortable']").sortable().disableSelection();
+	var $tabs = $("#tabs").tabs();
+	var $tab_items = $("ul:first li", $tabs).droppable({
+	    accept: ".connSort li",
+	    hoverClass: "ui-state-hover",
+	    drop: function(event, ui) {
+		var $item = $(this);
+		var $list = $($item.find("a").attr("href"))
+		    .find(".connSort");
+		ui.draggable.hide("slow", function() {
+		    $tabs.tabs("select", $tab_items.index($item));
+		    $(this).appendTo($list).show("slow");
+		});
+	    }
+	});
+	$("#gallery_save").click(function() {
+	    var tahendus = {};
+	    $("ul[id^='sortable']").each(function(i, el) {
+		tahendus[el.id.substr(8)] = 
+		    $(this).find("img").map(function() {
+			var m = /gallery\/photo\/(\d+)\//.exec(this.src);
+			return m[1];
+		    }).get().join(',');
+	    });
+	    $.ajax({
+		url: "/admin/arrange_gallery",
+		type: "POST",
+		data: tahendus,
+		success: function(html) {
+		    $("#flash").html(html);
+		}
+	    });
+	    return false;
+	});
+    }
 });

@@ -27,9 +27,8 @@
             %a{:href => '/member/logout'}
               logout
         %div{:id => "hlavni", :class => "span-15 round"}
-          - if flash[:notice]
-            %p.error
-              = flash[:notice]
+          #flash
+            = haml :flash
           #content
             = yield
         %br.clear
