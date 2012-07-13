@@ -64,6 +64,7 @@ $(document).ready(function() {
     });
 
     // gallery
+    // admin
     if(/\/admin\/gallery/.exec(document.location)) {
 	$("ul[id^='sortable']").sortable().disableSelection();
 	var $tabs = $("#tabs").tabs();
@@ -98,6 +99,16 @@ $(document).ready(function() {
 		}
 	    });
 	    return false;
+	});
+    }
+    // display
+    if(/\/gallery/.exec(document.location) &&
+       !(/\/admin\/gallery/.exec(document.location))) {
+	$("#gallery").gallery({
+	    interval: 1000,
+	    width: '97%',
+	    ratio: 0.15,
+	    slideshow: false
 	});
     }
 });

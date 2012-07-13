@@ -1,0 +1,7 @@
+#dropdown
+  %ul
+    - get_menu_options(@menu.id).each do |me|
+      %li.inline
+        %h2
+          %a{:href => me[1]}
+            = me[0]

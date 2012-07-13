@@ -14,6 +14,7 @@ $(document).ready(function () {
         // Load existing files:
     $.getJSON($('#fileupload').prop('action'), function (files) {
 	alert('thurk');
+
         var fu = $('#fileupload').data('fileupload'), 
 	template;
         fu._adjustMaxNumberOfFiles(-files.length);

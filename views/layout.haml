@@ -5,36 +5,56 @@
     = haml :head
   %body
     .container
-      %div{:class => "span-20 last prepend-2 append-2"}
-        #header.round
-          #pagetitle
-          #header_mink
-            %img{:width => 70, :src => "/images/headpic3.gif"}
-          #estonian_flag
-            %a{:id => "flag_ee", :href => "#"}
-              %img{:width => "28", :src => "/images/ee_flag.gif"}
-          #english_flag
-            %a{:id => "flag_en", :href => "#"}
-              %img{:width => "28", :src => "/images/en_flag.gif"}
-          #menu
-            - if admin_page?
-              = haml :"admin/options"
-          %br.clear
-        %div{:id => "sidebar", :class => "span-4 round"}
-          - if get_member
-            = "Logged in: #{get_member.username}"
-            %br
-            %a{:href => '/member/logout'}
-              logout
-        %div{:id => "hlavni", :class => "span-15 round"}
-          #flash
-            = haml :flash
-          #content
-            = yield
+      %div{:id => "header", :class => "span-24 round"}
+        #estonian_flag
+          %a{:id => "flag_ee", :href => "#"}
+            %img{:width => "28", :src => "/images/ee_flag.gif"}
+        #english_flag
+          %a{:id => "flag_en", :href => "#"}
+            %img{:width => "28", :src => "/images/en_flag.gif"}
+        #search
+          = haml :search
+        #menu
+          - if admin_page?
+            = haml :"admin/options"
+          - else
+            = haml :options
+        #breadcrumbs.round
+          - unless admin_page?
+            = haml :breadcrumbs
         %br.clear
-        %br.clear
-        #page_footer.round
-          #email_etc
-            lutreola@lutreola.ee
-        - if(request.path_info =~ %r{/photo})
-          #popup_photo
+
+      %br.clear
+      %br.clear
+      %br.clear
+      %br.clear
+      %br.clear
+      %br.clear
+          
+      %div{:id => "necropolis", :class => "span-24"}
+        - if gallery_page?
+          %div{:id => "hlavni", :class => "span-20"}
+            #flash
+              = haml :flash
+            #content
+              = yield
+        - else
+          %div{:id => "left", :class => "span-15"}
+            %div{:id => "sidebar"}
+              - if get_member
+                = "Logged in: #{get_member.username}"
+                %br
+                %a{:href => '/member/logout'}
+                  logout
+          %div{:id => "right", :class => "span-8"}
+            %div{:id => "hlavni"}
+              #flash
+                = haml :flash
+              #content
+                = yield
+              
+      %br.clear
+      %br.clear
+      #page_footer.round
+        #email_etc
+          lutreola@lutreola.ee

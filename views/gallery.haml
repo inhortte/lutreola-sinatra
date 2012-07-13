@@ -1,0 +1,12 @@
+%div{:id => "gallery", :class => "gallery"}
+  %ul{:class => "galleryBar"}
+    - photos.each do |p|
+      %li
+        %a{:href => p.image.url,
+           :rel => "p#{p.id}"}
+          %img{:src => p.image.versions[:thumb].url,
+               :title => p.name}
+
+- photos.each do |p|
+  %div{:id => "p#{p.id}", :style => "display: none;"}
+    %p= p.en
