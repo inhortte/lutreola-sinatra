@@ -1,14 +1,15 @@
 $fontFamily: Verdana
 $fontSize: 14px
 $menuFontSize: 12px
+$footerFontSize: 10px
 $bodyBackgroundColor: #333
-$bodyTextColor: #000
+$bodyTextColor: #ccc
 $linkColor: #060
 $headerBackgroundColor: #eee
-$hlavniBackgroundColor: #9ff
+$hlavniBackgroundColor: #333
 $menuHoverBGColor: brown
 $menuHoverColor: green
-$hlavniBorderColor: #ccc
+$hlavniBorderColor: #4ac
 
 body
   :font
@@ -69,19 +70,19 @@ img
   :padding
     :right 10px
 
-#page_footer
-  :float right
-  :background
-    :color #9ff
-  :border solid 2px #630
-  :padding 5px
-
-#email_etc
+#footer
   :font
-    :family "Arial Black"
-    :weight bold
-    :size 12px
-  :color #2a5
+    :family Helvetica
+    :size $footerFontSize
+  :color $bodyBackgroundColor
+  :padding 5px
+  :width 100%
+  #left
+    :float left
+    :padding
+      :right 20px
+  #right
+    :float right
 
 #header_mink
   :position absolute
@@ -136,28 +137,31 @@ img
   background: -webkit-gradient(linear, left top, left bottom, from(rgba(204, 204, 204, 0)), to(rgba(204, 204, 204, 1))) /* for webkit browsers */
   background: -moz-linear-gradient(rgba(204, 204, 204, 0) 0%,  rgba(204, 204, 204, 1) 100%) /* for firefox 3.6+ */ 
   :padding 10px
-  :width 97.5%
-    
-#left
-  :float left
+  :width 97%
+  #left
+    :float left
+  #right
+    :float left
+  .slim
+    :width 97.5%
+  .slimmer
+    :width 85%
 
-#right
-  :float left
+#lutreola_help
+  img
+    :width 100%
 
-#sidebar
-  :width 95%
+.hlavni
   :background
     :color $hlavniBackgroundColor
-  :font
-    :size smaller
-  :padding 10px 10px 10px 10px
-
-#hlavni
-  :width 95%
-  :background
-    :color $hlavniBackgroundColor
+  :color $bodyTextColor
   :border 2px solid $hlavniBorderColor
   :padding 10px 10px 10px 10px
+  :margin
+    :bottom 10px
+
+.nopad
+  :padding 0
 
 .clear
   :clear both
@@ -316,21 +320,20 @@ img
           :display block
           :width 100%
 
-// sidebar
-#sidebar_header
-  :font
-    :weight bold
-
-#sidebar
+#twitter
+  :height 150px
+  :overflow auto
+#tweets
   .tweet
     img
       :float left
       :width 30px
     .text
-      :width 70%
+      :width 80%
       :float right
+      :color $bodyTextColor
       :font
-        :size smaller
+        :size $footerFontSize
 
 #photo_gallery
   .thumbnail

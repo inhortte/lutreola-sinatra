@@ -1,5 +1,6 @@
 namespace '/content' do
   helpers Sinatra::LangHelper
+  helpers Sinatra::TwitterHelper
   before do
     logger.info "PATH: #{request.path_info}"
     unless get_lang

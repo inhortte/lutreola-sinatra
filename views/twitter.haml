@@ -1,0 +1,10 @@
+#tweets
+  - image_url = twitter_image_url
+  - last_tweets.each do |tweet|
+    .tweet
+      %img{:class => "", :src => image_url}
+      %span{:class => "text"}
+        = tweet
+      %br.clear
+      %br.clear
+

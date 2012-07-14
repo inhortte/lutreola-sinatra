@@ -32,29 +32,51 @@
       %br.clear
           
       %div{:id => "necropolis", :class => "span-24"}
-        - if gallery_page?
-          %div{:id => "hlavni", :class => "span-20"}
+        - if gallery_page? || admin_page?
+          %div{:id => "hlavni", :class => "span-23"}
             #flash
               = haml :flash
             #content
               = yield
         - else
-          %div{:id => "left", :class => "span-15"}
-            %div{:id => "sidebar"}
-              - if get_member
-                = "Logged in: #{get_member.username}"
-                %br
-                %a{:href => '/member/logout'}
-                  logout
-          %div{:id => "right", :class => "span-8"}
-            %div{:id => "hlavni"}
+          %div{:class => "span-13 left"}
+            %div{:class => "hlavni nopad"}
+              = haml :top_left
+            %div{:class => "span-6 left"}
+              .hlavni
+                - if get_member
+                  = "Logged in: #{get_member.username}"
+                  %br
+                  %a{:href => '/member/logout'}
+                    logout
+              .hlavni
+                - if get_member
+                  = "Logged in: #{get_member.username}"
+                  %br
+                  %a{:href => '/member/logout'}
+                    logout
+            %div{:class => "span-6 right last"}
+              .hlavni
+                - if get_member
+                  = "Logged in: #{get_member.username}"
+                  %br
+                  %a{:href => '/member/logout'}
+                    logout
+              .hlavni
+                - if get_member
+                  = "Logged in: #{get_member.username}"
+                  %br
+                  %a{:href => '/member/logout'}
+                    logout                    
+          %div{:class => "span-10 right last"}
+            .hlavni
               #flash
                 = haml :flash
               #content
                 = yield
+            %div{:id => "twitter", :class => "hlavni"}
+              = haml :twitter
               
-      %br.clear
-      %br.clear
-      #page_footer.round
-        #email_etc
-          lutreola@lutreola.ee
+        %br.clear
+        %div{:id => "footer", :class => "span-4"}
+          = haml :footer

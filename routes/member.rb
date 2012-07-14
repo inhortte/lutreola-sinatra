@@ -1,5 +1,6 @@
 namespace '/member' do
   helpers Sinatra::AuthenticationHelper
+  helpers Sinatra::TwitterHelper
   before do
     m = get_member
     if !m && request.path_info !~ %r{^/member/(login|signup|confirm)$}
