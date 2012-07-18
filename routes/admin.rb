@@ -15,7 +15,8 @@ namespace '/admin' do
   # matches /menu, /entry, /collection, /photo
   get %r{^/(\w+)$} do
     p = params[:captures][0].capitalize
-    haml :"admin/#{p.downcase}", :locals => property_map(get_properties(p), Object.const_get(p).send('new'))
+    obj = Object.const_get(p).send('new')
+    haml :"admin/#{p.downcase}", :locals => {:obj => obj}.merge(property_map(get_properties(p), obj))
   end
 
   # matches /menu/:id, /entry/:id, /collection/:id, /photo/:id
@@ -24,17 +25,19 @@ namespace '/admin' do
     obj = Object.const_get(p).send('get', params[:captures][1])
     loc_map = {:menu => :entry_menus, :entry => :menu_titles,
       :collection => :collection_photos, :photo => :collections }
+    logger.info(property_map(get_properties(p), obj).inspect)
     haml :"admin/#{p.downcase}", :locals =>
-      {loc_map[p.downcase.to_sym] => case p
-                                     when "Menu"
-                                       obj.entry_menus
-                                     when "Entry"
-                                       get_menu_titles(obj)
-                                     when "Collection"
-                                       obj.collection_photos
-                                     when "Photo"
-                                       obj.collections
-                                     end}.merge(property_map(get_properties(p),
+      {:obj => obj,
+      loc_map[p.downcase.to_sym] => case p
+                                    when "Menu"
+                                      obj.entry_menus
+                                    when "Entry"
+                                      get_menu_titles(obj)
+                                    when "Collection"
+                                      obj.collection_photos
+                                    when "Photo"
+                                      obj.collections
+                                    end}.merge(property_map(get_properties(p),
                                                              obj))
   end
 
@@ -70,7 +73,12 @@ namespace '/admin' do
     mts = params.keys.reduce({}) { |ms, k| k.to_s =~ /^mt/ ?
       ms.merge!(k => params[k]) : ms }
     mts.keys.each { |mtk| params.delete(mtk) }
-    params[:main_menu] = Menu.first(:name => mts.first.to_s[2..-1]).id
+    params["main_menu"] =
+      begin
+        Menu.first(:name => params["main_menu"]).id
+      rescue
+        Menu.first.id
+      end
     if params[:id]
       e = Entry.get(params[:id])
       e.update(params)
@@ -82,7 +90,8 @@ namespace '/admin' do
         e = Link.new(params)
       end
       unless e.save
-        flash[:notice] = "Save failed"
+        flash[:notice] = "Save failed: " +
+          e.errors.full_messages.join("<br />")
         redirect "/admin/entry"
       end
       lemur = "saved"

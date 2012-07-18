@@ -36,9 +36,15 @@
   %br.clear
   %p
     %label{:for => "url"}
-      Url (If this is present, the text fields below will be ignored)
+      Url (If this is present, all the fields below will be ignored)
     %br
     %input{:type => "text", :name => "url", :value => "#{url ? url : ""}"}
+  %p
+    %label{:for => "main_menu"}
+      Menu to show when this page is displayed
+    %br
+    %select{:id => "avail_menus", :name => "main_menu"}
+      = menu_select(obj.menus, main_menu ? main_menu : nil)
   %p
     %label{:for => "en"}
       English Text

@@ -8,9 +8,10 @@ module Sinatra
       props.reduce({}) { |m,a| m.merge!(a => obj.send(a)) }
     end
 
-    def menu_select
-      Menu.all(:order => [:name.asc]).reduce("") do |ops, menu|
-        ops += "<option value=\"#{menu.name}\">#{menu.name}</option>"
+    def menu_select(avail_menus = Menu.all, cm = nil)
+      menu_id = cm.nil? ? Menu.first.id : cm.to_i # the home menu
+      avail_menus.sort_by { |m| m.name }.reduce("") do |ops, menu|
+        ops += "<option value=\"#{menu.name}\" #{menu_id == menu.id ? "selected=\"selected\"" : ""}>#{menu.name}</option>"
       end
     end
 

@@ -4,9 +4,11 @@ $menuFontSize: 12px
 $footerFontSize: 10px
 $bodyBackgroundColor: #333
 $bodyTextColor: #ccc
-$linkColor: #060
+$linkColor: #f8de08
+$headingColor: #568025
 $headerBackgroundColor: #eee
 $hlavniBackgroundColor: #333
+$breadcrumbBGColor: #333
 $menuHoverBGColor: brown
 $menuHoverColor: green
 $hlavniBorderColor: #4ac
@@ -32,6 +34,9 @@ a
 
 img
   :border 0
+
+h1, h2, h3, h4, h5, h6
+  :color $headingColor
 
 #main
   :width 100%
@@ -59,6 +64,34 @@ img
     :bottom 20px
   :margin
     :top -5px
+
+#subheader
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#cccccc00, endColorstr=#cccccc00)
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#cccccc00, endColorstr=#cccccc00)
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(204, 204, 204, 0)), to(rgba(204, 204, 204, 0)))
+  background: -moz-linear-gradient(rgba(204, 204, 204, 0) 0%,  rgba(204, 204, 204, 0) 100%)
+  :position relative
+  :width 98.5%
+  :border solid 0px #630
+  :padding
+    :bottom 20px
+  :margin
+    :top -15px
+  :font
+    :size $menuFontSize
+  :color $headingColor
+  a
+    :color $headingColor
+  #breadcrumbs
+    :float left
+    :padding 5px 10px 2px 10px
+    :background
+      :color $headerBackgroundColor
+  #login
+    :float right
+    :padding 5px 10px 2px 10px
+    :background
+      :color $headerBackgroundColor
 
 #pagetitle
   :float right
@@ -105,6 +138,7 @@ img
   :right 100px
   :font
     :size $menuFontSize
+  :color $headingColor
   #text
     :display inline
     :margin
@@ -119,16 +153,6 @@ img
   :position absolute
   :top 0px // This must echo #dropdown. The whole header is -5px vertical.
   :left 10px
-
-#breadcrumbs
-  :position absolute
-  :top 50px
-  :left 10px
-  :padding 5px 10px 2px 10px
-  :font
-    :size $menuFontSize
-  :background
-    :color $headerBackgroundColor
 
 #necropolis
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#cccccc00, endColorstr=#ccccccff)

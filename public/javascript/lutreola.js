@@ -28,8 +28,10 @@ $(document).ready(function() {
 	var name = this.options[this.selectedIndex].value;
 	if($("#mt" + name).length > 0) { // this asks if the el exists
 	    $("#mt" + name).remove();
+	    $("#avail_menus").children("option[value='" + name + "']").remove();
 	} else {
 	    $("#menu_titles_list").append('<div id="mt' + name + '"><span class="name">' + name + '</span><input type="text" name="mt' + name + '" /></div>');
+	    $("#avail_menus").append($("<option></option").attr('value',name).text(name));
 	}
     });
     $("#select_collections > #select_box > select").click(function() {
