@@ -10,6 +10,11 @@
       Name
     %input{:type => "text", :name => "name", :value => "#{name ? name : ""}"}
   %p
+    %label{:for => "default_page_id"}
+      Default page
+    %select{:id => "page_select", :name => "default_page_id"}
+      = page_select(id)
+  %p
     Arrange the menus!
   #entry_menus
     %ul#ems_sortable

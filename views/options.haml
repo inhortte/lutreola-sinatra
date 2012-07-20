@@ -5,3 +5,9 @@
         %h2
           %a{:href => me[1]}
             = me[0]
+        - unless me[2].nil?
+          %ul
+            - get_menu_options(me[2].id).each do |me_dd|
+              %li
+                %a{:href => me_dd[1]}
+                  = me_dd[0]

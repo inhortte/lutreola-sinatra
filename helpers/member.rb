@@ -24,12 +24,7 @@ module Sinatra
     def admin?
       get_member && get_member.class == Admin
     end
-
-    def admin_page?
-      request.path_info =~ %r{^/admin}
-    end
   end
-
   helpers AuthenticationHelper
   helpers MemberHelper
 end

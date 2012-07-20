@@ -19,6 +19,7 @@ class Menu
 
   has n, :entry_menus
   has n, :entries, :through => :entry_menu
+  belongs_to :parent, 'Menu', :required => false
 
   def default_page
     Page.get(self.default_page_id)

@@ -15,6 +15,12 @@ module Sinatra
       end
     end
 
+    def page_select(menu_id)
+      Entry.all(:main_menu => menu_id).select { |e| e.class == Page }.reduce("") do |ops, e|
+        ops += "<option value=#{e.id} #{Menu.get(menu_id).default_page_id == e.id ? "selected=\"selected\"" : ""}>#{e.title}</option>"
+      end
+    end
+
     def collection_select
       Collection.all(:order => [:name.asc]).reduce("") do |ops, coll|
         ops += "<option value=\"#{coll.id}\">#{coll.name}</option>"
