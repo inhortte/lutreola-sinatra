@@ -102,6 +102,34 @@ $(document).ready(function() {
 	    });
 	    return false;
 	});
+	$("button[id^='dphoto']").click(function() {
+	    var b = $(this);
+	    var id = this.id.substr(6);
+	    if(confirm('Are you sure you want to delete this photo?')) {
+		$.ajax({
+		    url: "/admin/photo/" + id,
+		    type: "DELETE",
+		    success: function(html) {
+			b.parents("li.photo_item").css('display','none');
+		    }
+		});
+	    }
+	    return false;
+	});
+	$("button[id^='dcoll']").click(function() {
+	    var b = $(this);
+	    var id = this.id.substr(5);
+	    if(confirm('Are you sure you want to delete this collection (no photos will be deleted)?')) {
+		$.ajax({
+		    url: "/admin/collection/" + id,
+		    type: "DELETE",
+		    success: function(html) {
+			b.parents("li.coll_tab").css('display','none');
+		    }
+		});
+	    }
+	    return false;
+	});
     }
     // display
     if(/\/gallery/.exec(document.location) &&

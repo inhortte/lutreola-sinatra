@@ -18,7 +18,7 @@ body
     :family $fontFamily
     :size $fontSize
   :background
-    :image url('images/henderson.jpg')
+    :image url('images/lutreola_27.jpg')
     :color $bodyBackgroundColor
   :color $bodyTextColor
   :margin 0 0 0 0
@@ -107,7 +107,7 @@ h1, h2, h3, h4, h5, h6
   :font
     :family Helvetica
     :size $footerFontSize
-  :color $bodyBackgroundColor
+  :color $bodyTextColor
   :padding 5px
   :width 100%
   #left
@@ -171,7 +171,7 @@ h1, h2, h3, h4, h5, h6
   .slimmer
     :width 85%
 
-#lutreola_help
+#lutreola_help, #gallery_img_link, .misc_photo_link
   img
     :width 100%
 
@@ -254,9 +254,28 @@ h1, h2, h3, h4, h5, h6
       :float left
       :padding 5px
 
+.coll_tab
+  button
+    :margin 0
+    :padding 0
+    :width 15px
+  .count
+    :display inline
+    :font
+      :size smaller
+      :margin
+        :top 15px
 .photo_item
   :float left
   :padding 5px
+  .name
+    :float left
+  .delete
+    :float right
+    button
+      :margin 0
+      :padding 0
+      :width 15px
           
 #flash
   :font

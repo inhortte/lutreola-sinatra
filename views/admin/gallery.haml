@@ -1,9 +1,12 @@
 #tabs
   %ul
     - collections.each do |c|
-      %li
+      %li.coll_tab
         %a{:href => "#coll#{c.id}"}
           = c.name.capitalize
+        .count
+          = "(#{c.photos.count})"
+        %button{:id => "dcoll#{c.id}"} X
     %li
       %a{:href => "#coll0"}
         None
@@ -17,6 +20,8 @@
             .name
               %a{:href => "/admin/photo/#{cp.photo.id}"}
                 = "(#{cp.photo.name})"
+            .delete
+              %button{:id => "dphoto#{cp.photo.id}"} X
   %div{:id => "coll0"}
     %ul{:id => "sortable0", :class => "connSort ui-helper-reset"}
       - Photo.all.select { |p| p.collections.count == 0 }.each do |p|
@@ -26,6 +31,8 @@
           .name
             %a{:href => "/admin/photo/#{p.id}"}
               = "(#{p.name})"
+          .delete
+            %button{:id => "dphoto#{p.id}"} X
   %br.clear
 
 %button{:id => "gallery_save"}

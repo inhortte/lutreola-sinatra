@@ -15,9 +15,19 @@ module Sinatra
       end
     end
 
+    # All menus excepting the one with menu_id and option values are ids
+    def menu_select_by_id(menu_id)
+      Menu.all(:order => [:name.asc]).select { |m| m.id != menu_id }.reduce("") do |ops, m|
+        ops += "<option value=#{m.id} #{menu_id == m.id ? "selected=\"selected\"" : ""}>#{m.name}</option>"
+      end
+      "<option value=0>NONE</option>" + ops
+    end
+
     def page_select(menu_id)
-      Entry.all(:main_menu => menu_id).select { |e| e.class == Page }.reduce("") do |ops, e|
-        ops += "<option value=#{e.id} #{Menu.get(menu_id).default_page_id == e.id ? "selected=\"selected\"" : ""}>#{e.title}</option>"
+      Entry.all.select do |e|
+        (menu_id.nil? || e.main_menu == menu_id) && e.class == Page
+      end.reduce("") do |ops, e|
+        ops += "<option value=#{e.id} #{(!menu_id.nil? && Menu.get(menu_id).default_page_id == e.id) ? "selected=\"selected\"" : ""}>#{e.title}</option>"
       end
     end
 

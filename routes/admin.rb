@@ -135,6 +135,27 @@ namespace '/admin' do
     redirect "/admin/photo/#{p.id}"
   end
 
+  delete '/photo/:id' do
+    photo = Photo.get(params[:id])
+    if photo
+      logger.info "About to delete photo #{photo.name}"
+      photo.collection_photos.each { |cp| cp.destroy }
+      photo.image.remove!
+      photo.destroy
+    end
+  end
+
+  # No photos are destroyed. IE, all photos in the collection will then be
+  # without a collection and show up under the 'None' tab.
+  delete '/collection/:id' do
+    coll = Collection.get(params[:id])
+    if coll
+      logger.info "About to delete collection #{coll.name}"
+      coll.collection_photos.each { |cp| cp.destroy }
+      coll.destroy
+    end
+  end
+
   post '/arrange_gallery' do
     CollectionPhoto.destroy!
     params.delete("0")

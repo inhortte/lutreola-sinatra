@@ -29,6 +29,8 @@
           - if get_member
             = "Tere, #{get_member.username}"
             %a{:href => '/member/logout'} (logout)
+            - if admin? && !admin_page?
+              %a{:href => '/admin'} (admin)
           - else
             %a{:href => '/member/signup'} Signup
             %a{:href => '/member/login'} Login
@@ -41,7 +43,7 @@
           
       %div{:id => "necropolis", :class => "span-24 round"}
         - if gallery_page? || admin_page?
-          %div{:class => "span-23"}
+          %div{:class => "span-23 last"}
             .hlavni
               #flash
                 = haml :flash
@@ -52,25 +54,13 @@
             %div{:class => "hlavni nopad"}
               = haml :top_left
             %div{:class => "span-6 left"}
-              .hlavni
-                - if get_member
-                  = "Logged in: #{get_member.username}"
-                  %br
-                  %a{:href => '/member/logout'}
-                    logout
-              .hlavni
-                - if get_member
-                  = "Logged in: #{get_member.username}"
-                  %br
-                  %a{:href => '/member/logout'}
-                    logout
+              %div{:class => "hlavni nopad"}
+                = haml :middle_left_one
+              %div{:class => "hlavni nopad"}
+                = haml :bottom_left_one
             %div{:class => "span-6 right last"}
-              .hlavni
-                - if get_member
-                  = "Logged in: #{get_member.username}"
-                  %br
-                  %a{:href => '/member/logout'}
-                    logout
+              %div{:class => "hlavni nopad"}
+                = haml :middle_left_two
               .hlavni
                 - if get_member
                   = "Logged in: #{get_member.username}"

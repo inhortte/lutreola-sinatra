@@ -2,4 +2,6 @@
 private/*
 .sass-cache
 *_old*
-gallery/*
+public/gallery
+public/images
+
