@@ -37,6 +37,8 @@ img
 
 h1, h2, h3, h4, h5, h6
   :color $headingColor
+  :margin
+    :bottom 0
 
 #main
   :width 100%
@@ -184,6 +186,22 @@ h1, h2, h3, h4, h5, h6
   :margin
     :bottom 10px
 
+#gallery
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#cccccc00, endColorstr=#cccccc00)
+  -ms-filter: progid:DXImageTransform.Microsoft.gradient(startColorstr=#cccccc00, endColorstr=#cccccc00)
+  background: -webkit-gradient(linear, left top, left bottom, from(rgba(204, 204, 204, 0)), to(rgba(204, 204, 204, 0)))
+  background: -moz-linear-gradient(rgba(204, 204, 204, 0) 0%,  rgba(204, 204, 204, 0) 100%)
+  :padding 0
+  :margin
+    :bottom 10px
+
+#collections
+  :padding 0
+  :margin 0
+  .coll_link
+    :display inline
+    :margin 0 10px 0 0
+
 .nopad
   :padding 0
 
@@ -317,7 +335,7 @@ h1, h2, h3, h4, h5, h6
     :background
       :color $headerBackgroundColor
     :text-decoration none
-    :padding 10px 10px 8px 10px
+    :padding 10px 10px 5px 10px
     &:hover
       :background
         :color $menuHoverBGColor
@@ -419,16 +437,3 @@ h1, h2, h3, h4, h5, h6
     :weight bold
   :color #003399
   
-#gallery
-  img
-    :width 100%
-  :padding 0
-
-#galleryBar
-  :align center
-  :margin
-    :right auto
-    :left auto
-#galleryScreen
-  img
-    :width 100%

@@ -1,0 +1,35 @@
+
+body, html{
+	font-family:Arial, Helvetica, sans-serif;
+	font-size:12px;
+}
+
+#xofpp, #closeBoxpp, #playpp, #stoppp, #imageTitlepp{
+	cursor:pointer;
+	margin:0 10px;
+	color:white;
+	float:left;
+}
+#nextButtonBoxpp, #previousButtonBoxpp, #xofpp{
+	cursor:pointer;
+	margin:0 10px;
+	color:white;
+	float:right;
+}
+#gallery, #gallery ul{
+    list-style:none;
+    margin:0 auto;
+    padding:0;
+	 width:600px;
+}
+#gallery li{
+    margin:10px 10px;
+    padding:5px;
+    float:left;
+    list-style:none;
+    cursor:pointer;
+	 height:100px;
+}
+#gallery img{
+    border:2px white solid;
+}

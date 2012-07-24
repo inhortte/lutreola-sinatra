@@ -1,0 +1,9 @@
+#collections
+  %h5 Collections
+  .coll_link
+    %a{:id => "coll0", :href => "#"}
+      All
+  - Collection.all(:order => [:name.asc]).each do |c|
+    .coll_link
+      %a{:id => "coll#{c.id}", :href => "#"}
+        = c.name

@@ -42,13 +42,19 @@
       %br.clear
           
       %div{:id => "necropolis", :class => "span-24 round"}
-        - if gallery_page? || admin_page?
+        - if admin_page?
           %div{:class => "span-23 last"}
-            .hlavni
+            %div{:class => "hlavni"}
               #flash
                 = haml :flash
               #content
                 = yield
+        - elsif gallery_page?
+          %div{:class => "span-23 last nopad"}
+            .hlavni
+              = haml :collections
+            .gallery
+              = yield
         - else
           %div{:class => "span-13 left"}
             %div{:class => "hlavni nopad"}

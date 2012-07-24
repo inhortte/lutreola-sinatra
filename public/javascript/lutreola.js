@@ -8,6 +8,25 @@ function closePopup() {
     $("#popup_photo").css('display', 'none');
 }
 
+// coll_id 0 means all photos.
+// coll_id 1 means first collection (no matter where the ids start).
+function collToGallery(gallery, coll_id) {
+    gallery.empty();
+    $.ajax({
+	url: '/gallery/collection/' + coll_id,
+	dataType: 'json',
+	success: function(data) {
+	    $.each(data, function(i, p) {
+		$('<a rel="gallery" />')
+                    .append($('<img>').prop('src', p.thumb))
+                    .prop('href', p.url)
+                    .prop('title', p.name)
+                    .appendTo(gallery);
+	    });
+	}
+    });
+}
+
 $(document).ready(function() {
     $("a[id^='flag']").click(function() {
 	var which = this.id.substr(5);
@@ -35,7 +54,6 @@ $(document).ready(function() {
 	}
     });
     $("#select_collections > #select_box > select").click(function() {
-	alert("#select_collections > #select_box > select");
 	var id = this.options[this.selectedIndex].value;
 	var name = this.options[this.selectedIndex].text;
 	if($("#coll" + id).length > 0) { // this asks if the el exists
@@ -134,11 +152,26 @@ $(document).ready(function() {
     // display
     if(/\/gallery/.exec(document.location) &&
        !(/\/admin\/gallery/.exec(document.location))) {
-	$("#gallery").gallery({
-	    interval: 1000,
-	    width: '97%',
-	    ratio: 0.15,
-	    slideshow: false
+	$("#gallery").imagegallery({
+	    fullscreen: false,
+	    canvas: true,
+	    effects: [
+		'blind',
+		'clip',
+		'drop',
+		'explode',
+		'fade',
+		'fold',
+		'puff',
+		'slide',
+		'scale'
+	    ],
+	    show: 'slide',
+	    hide: 'slide'});
+	var gallery = $("#gallery");
+	collToGallery(gallery, 0);
+	$("a[id^='coll']").click(function() {
+	    collToGallery(gallery, this.id.substr(4));
 	});
     }
 });
